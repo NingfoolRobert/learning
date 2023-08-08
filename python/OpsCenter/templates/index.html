@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="/static/plugins/bootstrap-4.6.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <style>
+
+
+    </style>
+
+</head>
+<body>
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="https://v4.bootcss.com/docs/4.6/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    Bootstrap
+  </a>
+</nav>
+
+<div class="container">
+    <h3>{{title}}</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in data_list %}
+    <tr>
+      <th scope="row">1</th>
+      <td>{{item}}</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<script src="/static/js/jquery-3.7.0.min.js"></script>
+<script src="/static/plugins/bootstrap-4.6.2/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" >
+    $(function() {
+
+    });
+</script>
+
+</body>
+</html>
