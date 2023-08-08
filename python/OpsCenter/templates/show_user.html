@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<body>
+
+<h1>用户列表</h1>
+
+<table cellspacing="0" cellpadding="1">
+    <thead valign="top">
+    <tr>
+        <th> ID </th>
+        <th> NAME </th>
+        <th> PWD </th>
+        <th> email </th>
+        <th> depart_id </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item  in data_list %}
+    <tr>
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.pwd}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.depart_id}}</td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+</body>
+</html>
