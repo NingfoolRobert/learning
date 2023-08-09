@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'db_ops',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '10.80.14.234',
+        'HOST': 'localhost',
         'PORT': 3306,
     }
 }

@@ -5,7 +5,7 @@ from django.shortcuts import render, HttpResponse,redirect
 
 
 def index(request):
-    return HttpResponse("欢迎使用")
+    return render(request, 'index.html')
 
 def user_add(request):
     return render(request, 'user_add.html')
