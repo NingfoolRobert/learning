@@ -22,9 +22,13 @@ from app0 import views
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('index', views.index),
-    path('user/add', views.user_add),
     path('tpl', views.tpl),
     path('news', views.news),
     path('login', views.login),
+    path('info/list', views.info_list),
+
+    path('user/add', views.user_add),
+    path('user/edit', views.user_edit),
+    path('department/add', views.department_add),
 
 ]

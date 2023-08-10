@@ -15,7 +15,16 @@
 
 <img src="{% static 'img/logo.png' %}"/>
 
+<form method="post" action="/user/add">
+     {% csrf_token  %}
+<div >
+    <input type="text" placeholder="用户名" name="name">
+    <input type="password" placeholder = "密码" name="pwd">
+    <input type="text" placeholder="邮箱" name="email">
+    <input type="text" placeholder="手机号" name="phone">
 
-
+    <input type="submit" name="提 交"/>
+</div>
+</form>
 </body>
 </html>

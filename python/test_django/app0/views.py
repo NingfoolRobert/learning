@@ -1,15 +1,11 @@
 from django.shortcuts import render, HttpResponse,redirect
 
-
+from app0.models import Department,UserInfo
 # Create your views here.
 
 
 def index(request):
     return render(request, 'index.html')
-
-def user_add(request):
-    return render(request, 'user_add.html')
-
 
 
 def tpl(request):
@@ -52,8 +48,58 @@ def login(request):
 
     name = request.POST.get('name')
     pwd = request.POST.get('pwd')
+    #
+    obj = UserInfo.objects.filter(name=name).first()
+    if obj == None:
+        return render(request, 'login.html', {'error_msg':"用户名或密码错误"})
+    #
+    return redirect("/index")
 
-    if name == 'root' and pwd == '123':
-        return redirect("/index")
 
-    return render(request, 'login.html',  {"error_msg":"用户名或密码错误"})
+def info_list(request):
+    data_list = UserInfo.objects.all()
+    return render(request, 'info_list.html', {"items":data_list})
+
+
+def user_add(request):
+
+    if request.method == 'GET':
+        return render(request, 'user_add.html')
+
+    name = request.POST.get('name')
+    pwd = request.POST.get('pwd')
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
+    #
+    UserInfo.objects.create(name=name, email=email, phone=phone, pwd=pwd)
+    #return HttpResponse("注册成功")
+    return redirect("/info/list")
+
+
+def user_edit(request):
+    if request.method == 'GET':
+        return render(request, "mode_userinfo.html")
+    #
+    id = request.POST.get('id')
+
+    UserInfo.objects.update(id=id)
+
+    return HttpResponse("编辑成功")
+
+
+def department_add(request):
+
+    if request.method == 'GET':
+        return render(request,'department_add.html')
+
+    name = request.POST.get('name')
+    print(name)
+    # if name == None:
+    #     return render(request,'department_add.html', {"error":"请输入部门名称"})
+
+    depart = Department.objects.filter(name=name).first()
+    if depart != None:
+        return render(request,'department_add.html', {"error": "部门已存在"})
+
+    Department.objects.create(name=name)
+    return HttpResponse("添加成功")
