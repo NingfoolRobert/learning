@@ -1,12 +1,84 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+   {% block title %}{% endblock %}
+
+     <link rel="stylesheet" href="{% static 'plugins/bootstrap-4.6.2/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" >
+
+
+    {% block css %}{% endblock %}
+
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/department/list">部门管理</a>
+                    <a class="dropdown-item" href="/user/list">用户管理</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+            </li>
 
+            <li class="nav-item">
+                <a class="nav-link disabled">Disabled-Test</a>
+            </li>
+        </ul>
 
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item active"><a class="nav-link" href="#">登录</a> </li>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    注册
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div>
+       {% block content %} {% endblock %}
+
+</div>
+
+    <footer>
+        <div>
+
+        </div>
+    </footer>
+
+    <script src="{% static  'js/jquery-3.7.0.min.js' %}"></script>
+    <script src="{% static  'plugins/bootstrap-4.6.2/js/bootstrap.min.js' %}"></script>
+
+    {% block script %}{% endblock %}
 </body>
 </html>

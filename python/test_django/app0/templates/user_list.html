@@ -1,10 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>用户注册</title>
-</head>
-<body>
+{% extends "layout.html" %}
 
-</body>
-</html>
+{% block title %}
+<title>用户列表</title>
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="container">
+        <div style="margin: 10px auto 10px">
+            <a class="btn btn-primary" href="/user/add">
+                <i class="fa fa-plus  fa-fw"></i>
+                新建用户</a>
+
+                   <a class="btn btn-primary" href="/user/model/form/add">
+                <i class="fa fa-plus  fa-fw"></i>
+                新建Model用户</a>
+        </div>
+        <div class="card ">
+            <div class="card-header bg-light text-dark">
+                 <i class="fa fa-list"></i>
+                用户列表
+            </div>
+            <div class="card-content ">
+                <table class="table table-bordered text-center">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+                        <th>手机号</th>
+                        <th>部门</th>
+                        <th>注册时间</th>
+                        <th>上次更新时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in users %}
+                    <tr>
+                        <td>{{ item.id }} </td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.phone }}</td>
+                        <td>{{ item.department.name }}</td>
+                        <td>{{ item.create_time|date:"Y-m-d H:i:s" }} </td>
+                        <td>{{ item.update_time|date:"Y-m-d H:i:s" }} </td>
+
+                        <td>
+                            <a class="btn btn-info btn-sm" href="/user/{{ item.id }}/edit">编辑</a>
+                            <a class="btn btn-danger btn-sm" href="/user/delete?uid={{ item.id }}">删除</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-foot">
+
+            </div>
+        </div>
+  </div>
+
+
+
+{% endblock %}

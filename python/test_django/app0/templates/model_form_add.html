@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action = "/user/add">
+    { % csrf_token %}
+    {{ form.name }}
+    {{ form.id }}
+
+</form>
+</body>
+</html>

@@ -9,6 +9,7 @@ from django.db import models
 class Department(models.Model):
     """部门表"""
     name = models.CharField(max_length=64, null=False, unique=True)
+    parent_id = models.ForeignKey(to="Department",to_field="id", null=True, blank=True, on_delete=models.SET_NULL)
     memo = models.CharField(max_length=256)
 
 

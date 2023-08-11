@@ -13,40 +13,26 @@
                 添加用户
             </div>
             <div class="card-content ">
-                <form class="form" style="margin-top:20px;padding:30px" method="post" action="/user/add">
+                <form class="form" style="margin-top:20px;padding:30px" method="post" action="/user/{{ obj.id }}/edit">
                     {% csrf_token %}
                     <div class="form-group row" >
                         <label for="inputEmail1" class="col-sm-3 col-form-label text-right">用户名</label>
                         <div class="col-sm-6 my-1">
-                            <input type="text" class="form-control"  placeholder="用户名" id="inputEmail1" name="name">
+                            <input type="text" class="form-control"  id="inputEmail1" name="name" value="{{ obj.name }}">
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
                      <div class="form-group row" >
                         <label for="inputEmail2" class="col-sm-3 col-form-label text-right">邮箱</label>
                         <div class="col-sm-6 my-1">
-                            <input type="text" class="form-control"  placeholder="邮箱" id="inputEmail2" name="email">
+                            <input type="text" class="form-control"  id="inputEmail2" name="email" value="{{ obj.email }}">
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
                      <div class="form-group row" >
                         <label for="inputPhone3" class="col-sm-3 col-form-label text-right">手机号</label>
                         <div class="col-sm-6 my-1">
-                            <input type="text" class="form-control"  placeholder="手机号" id="inputPhone3" name="phone">
-                            <span style="color:red">{{ error }}</span>
-                        </div>
-                    </div>
-                    <div class="form-group row" >
-                        <label for="inputPwd3" class="col-sm-3 col-form-label text-right">密码</label>
-                        <div class="col-sm-6 my-1">
-                            <input type="password" class="form-control"  placeholder="密码" id="inputPwd3" name="pwd">
-                            <span style="color:red">{{ error }}</span>
-                        </div>
-                    </div>
-                    <div class="form-group row" >
-                        <label for="inputPwd3" class="col-sm-3 col-form-label text-right">确认密码</label>
-                        <div class="col-sm-6 my-1">
-                            <input type="password" class="form-control"  placeholder="确认密码" id="inputPwd3" name="confir_pwd">
+                            <input type="text" class="form-control"  id="inputPhone3" name="phone" value = "{{ obj.phone }}">
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
@@ -54,7 +40,7 @@
                         <label for="inputPwd3" class="col-sm-3 col-form-label text-right">隶属部门</label>
                         <div class="col-sm-6 my-1">
                                 <select  name="depart" class="custom-select mr-sm-1">
-                                    <option selected><span class="disabled">请选择部门</span></option>
+                                    <option selected>{{ obj.depart_id }}</option>
                                     {% for item in departs %}
                                         <option value="{{ item.id }}">{{ item.name }}</option>
                                     {% endfor %}
@@ -64,7 +50,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-9 text-right">
-                            <button type="submit" class="btn btn-primary">注 册</button>
+                            <button type="submit" class="btn btn-primary">确 认</button>
                         </div>
                     </div>
                 </form>

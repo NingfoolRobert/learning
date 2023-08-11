@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse,redirect
 
-from app0.models import Department,UserInfo
+from app0.models import Department,UserInfo,FileInfo
 # Create your views here.
 
 
@@ -49,7 +49,7 @@ def login(request):
     name = request.POST.get('name')
     pwd = request.POST.get('pwd')
     #
-    obj = UserInfo.objects.filter(name=name).first()
+    obj = UserInfo.objects.filter(email=name, pwd=pwd).first()
     if obj == None:
         return render(request, 'login.html', {'error_msg':"用户名或密码错误"})
     #
@@ -59,32 +59,6 @@ def login(request):
 def info_list(request):
     data_list = UserInfo.objects.all()
     return render(request, 'info_list.html', {"items":data_list})
-
-
-def user_add(request):
-
-    if request.method == 'GET':
-        return render(request, 'user_add.html')
-
-    name = request.POST.get('name')
-    pwd = request.POST.get('pwd')
-    email = request.POST.get('email')
-    phone = request.POST.get('phone')
-    #
-    UserInfo.objects.create(name=name, email=email, phone=phone, pwd=pwd)
-    #return HttpResponse("注册成功")
-    return redirect("/info/list")
-
-
-def user_edit(request):
-    if request.method == 'GET':
-        return render(request, "mode_userinfo.html")
-    #
-    id = request.POST.get('id')
-
-    UserInfo.objects.update(id=id)
-
-    return HttpResponse("编辑成功")
 
 
 def department_add(request):
@@ -97,9 +71,98 @@ def department_add(request):
     # if name == None:
     #     return render(request,'department_add.html', {"error":"请输入部门名称"})
 
-    depart = Department.objects.filter(name=name).first()
-    if depart != None:
-        return render(request,'department_add.html', {"error": "部门已存在"})
+    # depart = models.Department.objects.filter(name=name).first()
+    # if depart != None:
+    #     return render(request,'department_add.html', {"error": "部门已存在"})
 
     Department.objects.create(name=name)
-    return HttpResponse("添加成功")
+    return redirect('/department/list')
+
+
+def department_list(request):
+    if request.method == 'GET':
+        departs = Department.objects.all().order_by('id')
+        print(departs)
+        return render(request, 'department_list.html', {"departs": departs})
+
+
+def department_delete(request):
+    nid = request.GET.get('nid')
+
+    obj = Department.objects.filter(id=nid).first()
+    print(nid, obj)
+    ret = Department.objects.filter(id=nid).delete()
+    print(ret)
+    return redirect('/department/list')
+
+
+def department_edit(request, nid):
+    if request.method == 'GET':
+        print(nid)
+        obj = Department.objects.filter(id=nid).first()
+        return render(request, 'department_edit.html', {"obj":obj})
+
+    name = request.POST.get('name')
+    ret = Department.objects.filter(id=nid).update(name=name)
+    if ret == None:
+        obj = Department.objects.filter(id=nid).first()
+        return render(request, 'department_edit.html', {"obj":obj, "error":"部门名称已存在"})
+    return redirect('/department/list')
+
+
+#
+def user_list(request):
+    objs = UserInfo.objects.all()
+    for obj in objs:
+     print(obj.department_id, obj.get_gender_display(), obj.create_time.strftime('%Y-%m-%d'))
+    return render(request, "user_list.html", {"users" : objs})
+
+
+def user_add(request):
+    if request.method == 'GET':
+        depart = Department.objects.all().order_by('id')
+        print(depart)
+        return render(request, 'user_add.html', {"departs" : depart})
+
+    name = request.POST.get('name')
+    pwd = request.POST.get('pwd')
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
+    #
+    ret = UserInfo.objects.create(name=name, email=email, phone=phone, pwd=pwd)
+    print(ret)
+    return redirect("/user/list")
+
+
+def user_edit(request, nid):
+    if request.method == 'GET':
+        obj = UserInfo.objects.filter(id=nid).first()
+        print(nid ,obj)
+        depart = Department.objects.all().order_by('id')
+        return render(request, "user_edit.html", {"obj" : obj, "departs":depart})
+    #
+    id = request.POST.get('id')
+
+    UserInfo.objects.update(id=id)
+
+    return HttpResponse("编辑成功")
+
+
+def file_list(request):
+
+    files = FileInfo.objects.all().order_by('create_time')
+    return render(request, "file_list.html", {"files": files})
+
+################################################################
+from django import models
+
+class UserModelForm(forms.ModelForm):
+    class Meta:
+        model = models.UserInfo
+        fields = ['id', 'name', 'email', 'phone']
+
+
+def user_model_form_add(request):
+    form = UserModelForm()
+    return render(request, 'model_form_add.html', {"form":form})
+

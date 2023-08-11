@@ -13,15 +13,8 @@
                 添加用户
             </div>
             <div class="card-content ">
-                <form class="form" style="margin-top:20px;padding:30px" method="post" action="/user/add">
+                <form class="form" style="margin-top:20px;padding:30px" method="post" action="/user/{{ obj.id }}/mod">
                     {% csrf_token %}
-                    <div class="form-group row" >
-                        <label for="inputEmail1" class="col-sm-3 col-form-label text-right">用户名</label>
-                        <div class="col-sm-6 my-1">
-                            <input type="text" class="form-control"  placeholder="用户名" id="inputEmail1" name="name">
-                            <span style="color:red">{{ error }}</span>
-                        </div>
-                    </div>
                      <div class="form-group row" >
                         <label for="inputEmail2" class="col-sm-3 col-form-label text-right">邮箱</label>
                         <div class="col-sm-6 my-1">
@@ -29,17 +22,17 @@
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
-                     <div class="form-group row" >
-                        <label for="inputPhone3" class="col-sm-3 col-form-label text-right">手机号</label>
+                    <div class="form-group row" >
+                        <label for="inputPwd3" class="col-sm-3 col-form-label text-right">旧密码</label>
                         <div class="col-sm-6 my-1">
-                            <input type="text" class="form-control"  placeholder="手机号" id="inputPhone3" name="phone">
+                            <input type="password" class="form-control"  placeholder="旧密码" id="inputPwd3" name="old_pwd">
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
                     <div class="form-group row" >
                         <label for="inputPwd3" class="col-sm-3 col-form-label text-right">密码</label>
                         <div class="col-sm-6 my-1">
-                            <input type="password" class="form-control"  placeholder="密码" id="inputPwd3" name="pwd">
+                            <input type="password" class="form-control"  placeholder="密码" id="inputPwd3" name="new_pwd">
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
@@ -47,18 +40,6 @@
                         <label for="inputPwd3" class="col-sm-3 col-form-label text-right">确认密码</label>
                         <div class="col-sm-6 my-1">
                             <input type="password" class="form-control"  placeholder="确认密码" id="inputPwd3" name="confir_pwd">
-                            <span style="color:red">{{ error }}</span>
-                        </div>
-                    </div>
-                    <div class="form-group row" >
-                        <label for="inputPwd3" class="col-sm-3 col-form-label text-right">隶属部门</label>
-                        <div class="col-sm-6 my-1">
-                                <select  name="depart" class="custom-select mr-sm-1">
-                                    <option selected><span class="disabled">请选择部门</span></option>
-                                    {% for item in departs %}
-                                        <option value="{{ item.id }}">{{ item.name }}</option>
-                                    {% endfor %}
-                                </select>
                             <span style="color:red">{{ error }}</span>
                         </div>
                     </div>
