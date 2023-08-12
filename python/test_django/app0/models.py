@@ -12,17 +12,19 @@ class Department(models.Model):
     parent_id = models.ForeignKey(to="Department",to_field="id", null=True, blank=True, on_delete=models.SET_NULL)
     memo = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.name
 
 class UserInfo(models.Model):
     """用户表"""
-    name = models.CharField(max_length=20, null=False)
-    pwd = models.CharField(max_length=64, null=False)
-    email = models.EmailField(max_length=128, null=False, unique=True)
-    phone = models.CharField(max_length=11)
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
+    name = models.CharField(max_length=20, null=False, verbose_name="用户名")
+    pwd = models.CharField(max_length=64, null=False, verbose_name="密码")
+    email = models.EmailField(max_length=128, null=False, unique=True, verbose_name="邮箱")
+    phone = models.CharField(max_length=11, verbose_name="手机号")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    update_time = models.DateTimeField(auto_now=True, verbose_name="更新时间")
     #depart = models.ForeignKey(to="Department", to_field="id", on_delete=models.CASCADE) #级联删除
-    department = models.ForeignKey(to="Department", to_field="id", null=True, blank=True,on_delete=models.SET_NULL) #置空
+    department = models.ForeignKey(verbose_name="部门",to="Department", to_field="id", null=True, blank=True,on_delete=models.SET_NULL) #置空
 
     gender_choices =(
         (1, '男'),
@@ -32,7 +34,7 @@ class UserInfo(models.Model):
 
 
 class FileInfo(models.Model):
-    name = models.CharField(max_length=256, null=False)
+    name = models.CharField(max_length=256, null=False, verbose_name="文件名")
     type_choices = (
          (1, '可执行文件'),
          (2, 'Config'),
@@ -42,12 +44,14 @@ class FileInfo(models.Model):
          (6, 'bat'),
          (7, '动态库'),
     )
-    type = models.SmallIntegerField(default=0, choices=type_choices)
-    size = models.IntegerField(default=0)
-    version = models.IntegerField(default=0)
-    md5 = models.CharField(max_length=64)
-    create_time = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(to='UserInfo', to_field='id', blank=True, null=True, on_delete=models.SET_NULL)
+    type = models.SmallIntegerField(default=0, choices=type_choices, verbose_name="类型")
+    size = models.IntegerField(default=0, verbose_name="大小")
+    version = models.IntegerField(default=0, verbose_name="版本")
+    md5 = models.CharField(max_length=64, verbose_name="MD5")
+    create_time = models.DateTimeField(null=True, verbose_name="创建时间")
+    upload_time = models.DateTimeField(auto_now_add=True, verbose_name="上传时间")
+    path = models.CharField(verbose_name="路径", max_length=256, null=True, blank=True)
+    user = models.ForeignKey(verbose_name="发布者", to='UserInfo', to_field='id', blank=True, null=True, on_delete= models.SET_NULL)
 
 
 class TaskInfo(models.Model):
@@ -82,22 +86,23 @@ class TaskDtlInfo(models.Model):
         (2, '已完成')
 
     )
-    status = models.SmallIntegerField(default=0, blank=False, choices=status_choices)
+    status = models.SmallIntegerField(default=0, blank=False, choices=status_choices, verbose_name="执行状态")
     opt_choices = (
          (1, '上传'),
+         (2, '下载'),
          (2, '执行'),
     )
     #
-    opt = models.SmallIntegerField(default=0, blank=True, choices=opt_choices)
-    create_time = models.DateTimeField()
-    schedule_time = models.DateTimeField()
-    opt_time = models.DateTimeField(auto_now_add=True)
-    target_ip = models.CharField(max_length=16)
-    target_dir = models.CharField(max_length=256)
-    args = models.CharField(max_length=256, null=True, blank=True)
-    seq = models.IntegerField(default=0)
-    file = models.ForeignKey(to="FileInfo",  to_field='id',blank=True, null=True,  on_delete=models.SET_NULL)
-    task = models.ForeignKey(to="TaskInfo", to_field='id', on_delete=models.CASCADE)
+    opt = models.SmallIntegerField(default=0, blank=True, choices=opt_choices, verbose_name="任务类型")
+    create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    schedule_time = models.DateTimeField(verbose_name="计划时间", auto_now=False, null=True)
+    opt_time = models.DateTimeField(verbose_name="执行时间", auto_now_add=False, null=True)
+    target_ip = models.CharField(verbose_name="机器IP",max_length=16)
+    target_dir = models.CharField(verbose_name="目标路径", max_length=256)
+    args = models.CharField(verbose_name="命令", max_length=256, null=True, blank=True)
+    seq = models.IntegerField(verbose_name="任务编号", default=0)
+    file = models.ForeignKey(verbose_name="文件", to="FileInfo",  to_field='id', blank=True, null=True,  on_delete=models.SET_NULL)
+    task = models.ForeignKey(verbose_name="父任务", to="TaskInfo", to_field='id', on_delete=models.CASCADE)
 #
 #
 #

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-<title>用户注册</title>
+<title>编辑文件</title>
 {% endblock %}
 
 {% block content %}
@@ -10,23 +10,24 @@
         <div class="card" style="margin-top:20px;">
             <div class="card-header bg-light text-dark">
                  <i class="fa fa-list"></i>
-                添加用户
+                编辑用户
             </div>
             <div class="card-content ">
-                <form class="form" style="margin-top:20px;padding:30px" method="post" action="/user/model/form/add">
+                <form class="form" style="margin-top:20px;padding:30px" method="post">
                     {% csrf_token %}
                     {% for field in form %}
                     <div class="form-group row" >
-                        <label  class="col-sm-3 col-form-label text-right">{{ field.label }}</label>
+                        <label for="inputEmail1" class="col-sm-3 col-form-label text-right">{{ field.label }}</label>
                         <div class="col-sm-6 my-1">
                             {{ field }}
+{#                            <input type="text" class="form-control"  id="inputEmail1" name="name" value="{{ obj.name }}">#}
                             <span style="color:red">{{ field.errors.0 }}</span>
                         </div>
                     </div>
-                   {% endfor %}
+                    {% endfor %}
                     <div class="form-group row">
                         <div class="col-sm-9 text-right">
-                            <button type="submit" class="btn btn-primary">注 册</button>
+                            <button type="submit" class="btn btn-primary">确 认</button>
                         </div>
                     </div>
                 </form>

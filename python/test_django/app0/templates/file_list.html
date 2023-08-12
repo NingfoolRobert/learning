@@ -9,13 +9,23 @@
 {% block  content %}
 
 <div class="container">
-        <div style="margin: 10px auto 10px">
-            <a class="btn btn-primary" href="#">
+        <div style="margin-top: 10px" class="clearfix">
+            <a class="btn btn-primary" href="/file/add">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
                     <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
                     <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
                 </svg>
                 上传文件</a>
+            <div style="float:right; width: 300px">
+                <form method="get">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search for ..." name="query"  value="{{ search_data }}">
+                        <div class="input-group-append">
+                            <button class="btn fa fa-search btn-outline-primary" type="submit"  aria-hidden="true"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="card ">
             <div class="card-header bg-light text-dark">
@@ -33,26 +43,48 @@
                         <th>大小</th>
                         <th>类型</th>
                         <th>创建时间</th>
+                        <th>发布时间</th>
+                        <th>文件路径</th>
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for item in files %}
+                    {% for obj in queryset %}
                     <tr>
-                        <td>{{ item.id }} </td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.version }}</td>
+                        <td>{{ obj.id }} </td>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.version }}</td>
+                        <td>{{ obj.user.name }}</td>
+                        <td>{{ obj.size }}</td>
+                        <td>{{ obj.type }}</td>
+                        <td>{{ obj.create_time|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ obj.upload_time|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ obj.path }}</td>
                         <td>
-                            <a class="btn btn-info btn-sm" href="/file/{{ item.id }}/edit">编辑</a>
-                            <a class="btn btn-danger btn-sm" href="/file/delete?fid={{ item.id }}">删除</a>
+                            <a class="btn btn-info btn-sm" href="/file/{{ obj.id }}/edit">编辑</a>
+                            <a class="btn btn-danger btn-sm" href="/file/delete?fid={{ obj.id }}">删除</a>
                         </td>
-
                     </tr>
                     {% endfor %}
                     </tbody>
                 </table>
+                <div class="clearfix">
+                    <nav aria-label="Page navigation example" style="float:right;margin-right: 38px; margin-top:10px">
+                        <ul class="pagination">
+                            {{ page_string }}
+                        </ul>
+                    </nav>
+                </div>
             </div>
+            <div class="card-footer ">
+                {% block footer %}
+                {% endblock %}
+            </div>
+
         </div>
+
+
+
     </div>
 
 {% endblock %}

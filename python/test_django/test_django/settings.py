@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app0.apps.App0Config',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app0.middleware.auth.AuthMiddleWare',
 ]
 
 ROOT_URLCONF = 'test_django.urls'
@@ -86,7 +88,7 @@ DATABASES = {
         'NAME': 'db_ops',
         'USER': 'root',
         'PASSWORD': '123456',
-        'HOST': '10.80.14.234',
+        'HOST': 'localhost',
         'PORT': 3306,
     }
 }
@@ -114,7 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'UTC'
 

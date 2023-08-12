@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% load static %}
+
+
+{% block title %}
+<title>上传文件</title>
+{% endblock %}
+
+
+
+{% block css %}
+{#    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">#}
+{#<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css">#}
+{#<!-- 下面这个很重要，没有这个文件，很多图标显示不出来 -->#}
+{#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >#}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+        <div class="card" style="margin-top:20px;">
+            <div class="card-header bg-light text-dark">
+                 <i class="fa fa-list"></i>
+                上传文件
+            </div>
+            <div class="card-content ">
+                <form class="form" style="margin-top:20px;padding:30px" method="post" action="/file/add">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group row" >
+                        <label  class="col-sm-3 col-form-label text-right">{{ field.label }}</label>
+                        <div class="col-sm-6 my-1">
+                            {{ field }}
+                            <span style="color:red">{{ field.errors.0 }}</span>
+                        </div>
+                    </div>
+                   {% endfor %}
+                    <div class="form-group row">
+                        <div class="col-sm-9 text-right">
+                            <button type="submit" class="btn btn-primary">上 传</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="form-group">
+                    <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker" id="dateTime">
+                        <div class="input-group-append" data-target="#datetimepicker" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block js %}
+{#<script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.11.2/jquery.min.js"></script>#}
+{#<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>#}
+{#<!-- 下面是个时间插件 -->#}
+{#<script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.1/moment.min.js"></script>#}
+{#<!-- 网上很多人都没说要下面这个文件，引入这个文件，可以将英文转成中文 -->#}
+{#<script src="https://cdn.bootcdn.net/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>#}
+{#<script src="https://cdn.bootcdn.net/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>#}
+{#<script>#}
+{#   $(function () {#}
+{#        $('#datetimepicker').datetimepicker({#}
+{#            //配置参数#}
+{#            format: 'YYYY-MM-DD HH:mm:ssZ',   //配置时间格式#}
+{#            autoclose:true,     //选择一个时间后自动关闭选择框#}
+{#            buttons: {      //显示哪些按钮#}
+{#                showToday: true,#}
+{#                showClear: true,#}
+{#                showClose: true#}
+{#            },#}
+{#            stepping: 5,            //分钟的增减步长#}
+{#            minDate:false,          //能选择的最小日期#}
+{#            maxDate:false,          //能选择的最大日期#}
+{#            useCurrent:true,        //使用当前的日期时间#}
+{#            defaultDate: false,     //输入框中默认的日期#}
+{#            collapse: true,         //面板折叠，默认true折叠起来#}
+{#            sideBySide: false,      //面板平行排列，默认false纵向排列#}
+{#            useStrict: true,        //输入的时间使用严格格式#}
+{#            allowMultidate: false,  //允许选择多个日期，默认false只能选择一个日期#}
+{#            disabledDates: ['2021/12/4'],   //不能使用的日期，默认false都能使用，如果要设置哪些天不能使用，放到一个数组中#}
+{#            enabledDates: false,    //只能使用的日期，默认false都能选，如果要设置哪些天能使用，放到一个数组中#}
+{#            tooltips:{              //设置按钮的提示信息#}
+{#                today: '今天',#}
+{#                clear: '清除',#}
+{#                close: '关闭',#}
+{#                selectMonth: '选择月份',#}
+{#                prevMonth: '上个月',#}
+{#                nextMonth: '下个月',#}
+{#                selectYear: '选择年份',#}
+{#                prevYear: '上一年',#}
+{#                nextYear: '下一年',#}
+{#                selectDecade: '选择时期',#}
+{#                selectDate:'选择日期',#}
+{#                selectTime:'选择时间',#}
+{#                prevDecade: '上个年代',#}
+{#                nextDecade: '下个年代',#}
+{#                prevCentury: '上个世纪',#}
+{#                nextCentury: '下个世纪',#}
+{#                incrementHour: '增加一小时',#}
+{#                pickHour: '选择小时',#}
+{#                decrementHour:'减少一小时',#}
+{#                incrementMinute: '增加一分钟',#}
+{#                pickMinute: '选择分',#}
+{#                decrementMinute:'减少一分钟',#}
+{#                incrementSecond: '增加一秒',#}
+{#                pickSecond: '选择秒',#}
+{#                decrementSecond:'减少一秒'#}
+{#            },#}
+{#        locale: 'zh-CN' //中文#}
+{#        });#}
+{#    });#}
+</script>
+
+{% endblock %}

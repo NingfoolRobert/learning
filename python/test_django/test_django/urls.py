@@ -18,23 +18,29 @@ from django.contrib import admin
 from django.urls import path
 
 from app0 import views
+from app0.views import user, department, file, index,account
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    path('index', views.index),
-    path('tpl', views.tpl),
-    path('news', views.news),
-    path('login', views.login),
-    path('info/list', views.info_list),
+    path('index', index.index),
+    #path('tpl', views.tpl),
+    #path('news', views.news),
+    path('login', account.login),
+    path('logout', account.logout),
+    path('img/code', account.img_code),
+    #path('info/list', views.info_list),
 
-    path('user/add', views.user_add),
-    path('user/<int:nid>/edit', views.user_edit),
-    path('user/list', views.user_list),
-    path('department/add', views.department_add),
-    path('department/list', views.department_list),
-    path('department/delete', views.department_delete),
-    path('department/<int:nid>/edit', views.department_edit),
-    path('file/list', views.file_list),
-    path('user/model/form/add', views.user_model_form_add),
+    path('user/add', user.user_add),
+    path('user/<int:nid>/edit', user.user_edit),
+    path('user/list', user.user_list),
+    path('user/delete', user.user_delete),
+    path('department/add', department.department_add),
+    path('department/list', department.department_list),
+    path('department/delete', department.department_delete),
+    path('department/<int:nid>/edit', department.department_edit),
+    path('file/list', file.file_list),
+    path('file/add', file.file_add),
+    path('file/<int:fid>/edit', file.file_edit),
+    path('user/model/form/add', user.user_model_form_add),
 
 ]
