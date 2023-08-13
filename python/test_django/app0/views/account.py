@@ -48,8 +48,8 @@ def login(request):
     form = UserLoginForm(data=request.POST)
     if form.is_valid():
         print(form.cleaned_data)
-        filter= {'name': form.cleaned_data['name'],  'pwd':form.cleaned_data['pwd']}
-        row_object = UserInfo.objects.filter(**filter).first()
+        user_input_code = form.cleaned_data.pop('checkcode')
+        row_object = UserInfo.objects.filter(**form.cleaned_data).first()
         #print(row_object)
         if not row_object:
             form.add_error("pwd", "用户名或密码错误")
@@ -57,12 +57,14 @@ def login(request):
 
         code = request.session.get("img_code")
         #print(form.cleaned_data['checkcode'])
-        if code != form.cleaned_data['checkcode'].upper():
+        if code != user_input_code.upper():
             form.add_error("checkcode", "验证码错误")
             return render(request, 'login.html', {"form": form})
 
+    #保存session 信息
+    request.session.clear()
     request.session["info"] = {"id": row_object.id,  "name": row_object.name}
-    request.session.set_expiry(60)
+    request.session.set_expiry(60 * 60 * 24)
     return render(request, 'index.html')
 
 
@@ -80,4 +82,5 @@ def img_code(request):
     print(code_string)
     stream = BytesIO()
     img.save(stream, 'png')
+    request.session.set_expiry(60)
     return HttpResponse(stream.getvalue())

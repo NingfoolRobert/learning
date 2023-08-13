@@ -32,6 +32,9 @@ class UserInfo(models.Model):
     )
     gender = models.SmallIntegerField(verbose_name='性别', choices=gender_choices, default=1)
 
+    def __str__(self):
+        return self.name
+
 
 class FileInfo(models.Model):
     name = models.CharField(max_length=256, null=False, verbose_name="文件名")
@@ -107,6 +110,19 @@ class TaskDtlInfo(models.Model):
 #
 #
 #
+
+
+class OrderInfo(models.Model):
+    oid = models.CharField(verbose_name="订单号", max_length=128, null=False, blank=False)
+    name = models.CharField(verbose_name="名称", max_length=128, null=False, blank=False)
+    status_choices=(
+        (1, "待支付"),
+        (2, "已支付"),
+    )
+    status = models.SmallIntegerField(verbose_name="状态", choices=status_choices, default=1)
+    price = models.DecimalField(verbose_name="价格", decimal_places=2, max_digits=10, default=0.0)
+    create_time= models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
+    user = models.ForeignKey(verbose_name="用户", to="UserInfo", on_delete=models.CASCADE)
 
 
 

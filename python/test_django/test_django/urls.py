@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app0 import views
-from app0.views import user, department, file, index,account
+from app0.views import user, department, file, index,account,task,order,test
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
@@ -42,5 +42,17 @@ urlpatterns = [
     path('file/add', file.file_add),
     path('file/<int:fid>/edit', file.file_edit),
     path('user/model/form/add', user.user_model_form_add),
+    path('task/list', task.task_list),
+    path('task/ajax', task.task_ajax),
+
+
+    #订单管理
+    path('order/list', order.order_list),
+    path('order/add', order.order_add),
+    path('order/edit', order.order_edit),
+    path('order/delete', order.order_delete),
+
+    #test
+    path('test/md5', test.test_md5),
 
 ]

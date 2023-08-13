@@ -3,10 +3,14 @@ from django import forms
 
 #
 class BootStrap:
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.bootstrap_exclude_fields = []
         #
         for name, field in self.fields.items():
+            if name in self.bootstrap_exclude_fields:
+                continue
             if field.widget.attrs:
                 field.widget.attrs['class'] = "form-control"
                 field.widget.attrs['placeholder'] = field.label

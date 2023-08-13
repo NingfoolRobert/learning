@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<title>订单列表</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+        <div style="margin: 10px auto 10px">
+            <intput type="button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal">
+                <i class="fa fa-plus  fa-fw"></i>
+                新建</intput>
+        </div>
+        <div class="card ">
+            <div class="card-header bg-light text-dark">
+                 <i class="fa fa-list"></i>
+                订单详细
+            </div>
+            <div class="card-content ">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>订单号</th>
+                        <th>名称</th>
+                        <th>价格</th>
+                        <th>状态</th>
+                        <th>用户</th>
+                        <th>操作</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in queryset %}
+                    <tr>
+                        <td>{{ obj.id }} </td>
+                        <td>{{ obj.oid }} </td>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.price }}</td>
+                        <td>{{ obj.get_status_display }}</td>
+                        <td>{{ obj.user.name }}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="#">编辑</a>
+                            <a class="btn btn-danger btn-sm" href="#">删除</a>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+             <div class="clearfix">
+                    <nav aria-label="Page navigation example" style="float:right;margin-right: 38px; margin-top:10px">
+                        <ul class="pagination">
+                            {{ page_string }}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新建对话框 -->
+    <div id="exampleModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-primary">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title">新 建</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container clearfix">
+                        <form  id="formModal" class="form" style="margin-top:20px;padding:30px" >
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group row" >
+                                    <label  class="col-xs-1 col-form-label">{{ field.label }}</label>
+                                    <div class="col-xs-6 my-1">
+                                        {{ field }}
+                                        <span  class="error-msg" style="color:red"></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </form>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-cancel" data-dismiss="modal">取 消</button>
+                    <button id="modal-btn-save" type="button" class="btn btn-primary ">保 存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--删除对话框 -->
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function (){
+           bindModalBtnSaveEvent();
+        })
+
+        function  bindModalBtnSaveEvent(){
+
+            $("#modal-btn-save").click(function (){
+                //清除错误信息
+                $(".error-msg").empty();
+                //
+                $.ajax({
+                    url:'/order/add',
+                    type: 'POST',
+                    data: $("#formModal").serialize(),
+                    dataType:'JSON',
+                    success: function (res){
+                        console.log(res)
+                        if(res.status){
+                            $("#formModal")[0].reset()
+                            $("#exampleModal").modal('hide')
+
+                        }else {
+                            $.each(res.error, function (name, errs){
+                                $("#id_" + name).next().text(errs[0])
+                            })
+                            //alert("添加失败")
+                        }
+                    }
+                })
+            })
+        }
+    </script>
+{% endblock %}
